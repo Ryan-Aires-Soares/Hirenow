@@ -1,0 +1,248 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+body{
+    overflow: hidden;
+    display: flex;
+}
+
+#content-login{
+    width: 35vw;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+figure#logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 6vh;
+}
+
+img#logo{
+    width: 35%;
+    height: auto;
+}
+
+form{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+label{
+    margin-bottom: 0.5vh;
+}
+
+input{
+    width: 100%;
+    height: 4.5vh;
+    border-radius: 8px 0 0 8px;
+    background-color: rgb(233, 229, 229);
+    outline: none;
+    text-indent: 0.5vw;
+}
+
+label#label-senha{
+    margin-top: 3vh;
+}
+
+input#senha{
+    margin-bottom: 0.2vh;
+}
+
+span.icon{
+    height: 4.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #459A96;
+    border-radius: 0 10px 10px 0;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.bx-envelope{
+    width: 100%;
+}
+
+.input-box{
+    width: 100%;
+    display: flex;
+}
+
+span#senha{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+a#recuperar-senha{
+    text-decoration: underline;
+}
+
+a#recuperar:hover{
+    color: #459A96;
+}
+
+button{
+    position: relative;
+    width: 100%;
+    height: 5.5vh;
+    border-radius: 10px;
+    border: none;
+    margin-top: 4vh;
+    background-color: #459A96;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
+}
+
+button:hover{
+    background-color: #fff;
+    color: black;
+    letter-spacing: 1em;
+}
+
+button:hover:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 2px solid #459A96;
+    border-right: 2px solid #459A96;
+    animation: border-top-right 3s infinite alternate;
+}
+
+button:hover:after{
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 2px solid #459A96;
+    border-left: 2px solid #459A96;
+    animation: border-bottom-left 3s infinite alternate;
+}
+
+@keyframes border-top-right{
+    0%  {width: 0px; height: 0px;}
+    25% {width: 100%; height: 0px;}
+    50%{width: 100%; height: 100%;}
+    100%{width: 100%; height: 100%;}
+}
+
+@keyframes border-bottom-left{
+    0%  {width: 0px; height: 0px; opacity: 0;}
+    50%  {width: 0px; height: 0px; opacity: 0;}
+    50.1%  {width: 0px; height: 0px; opacity: 1;}
+    75% {width: 100%; height: 0px; opacity: 1;}
+    100%{width: 100%; height: 100%; opacity: 1;}
+}
+
+.line{
+    margin: 4vh 0 4vh 0;
+    height: 2vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#line1{
+    width: 40%;
+    height: 1px;
+    background: rgb(39, 37, 37);
+}
+
+#line2{
+    width: 40%;
+    height: 1px;
+    background: rgb(39, 37, 37);
+}
+
+a#cadastro{
+    width: 80%;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 1vh 0 1vh 0;
+    border: solid 2px #459A96;
+    border-radius: 10px;
+    background-color: #fff;
+    letter-spacing: 0.09em;
+    transition-duration: 0.5s;
+    text-transform: uppercase;
+    position: relative;
+}
+
+a#cadastro:hover{
+    background-color: #fff;
+    color: black;
+    border: none;
+    letter-spacing: 1em;
+}
+
+a#cadastro:hover:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 2px solid #459A96;
+    border-right: 2px solid #459A96;
+    animation: border-top-right 3s infinite alternate;
+}
+
+a#cadastro:hover:after{
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 2px solid #459A96;
+    border-left: 2px solid #459A96;
+    animation: border-bottom-left 3s infinite alternate;
+}
+
+figure#fundo-login{
+    width: 65vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(233, 229, 229);
+}
+
+img#fundo-login-svg{
+    width: 50%;
+}
+
+@media (max-width: 600px){
+    figure#fundo-login{
+        display: none;
+    }
+
+    #content-login{
+        width: 100vw;
+    }
+}

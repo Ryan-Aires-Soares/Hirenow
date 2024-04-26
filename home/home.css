@@ -1,0 +1,127 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+body{
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+header{
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1%;
+}
+
+.logo-home{
+    width: 50%;
+}
+
+img#logo-text{
+    margin-left: 8%;
+    width: 40%;
+}
+
+nav{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#li-login{
+    margin-right: 20%;
+}
+
+a.a-btn{
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+    background: #484450;
+    border-radius: 10px;
+    padding: 10px 20px 10px 20px;
+}
+
+a.a-btn:hover{
+    transition-duration: 0.5s;
+    background: #459A96;
+}
+
+#home{
+    width: 100vw;
+    display: flex;
+}
+
+#home-texto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    margin-left: 3%;
+    margin-right: 5%;
+}
+
+#home-texto h2{
+    text-transform: uppercase;
+    margin-bottom: 3%;
+    font-size: 2rem;
+}
+
+#home-texto p{
+    text-align: justify;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+a#acesso-vagas{
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: auto;
+    color: black;
+    padding: 2% 2% 2% 2%;
+    background: #459A96;
+    border-radius: 10px;
+}
+
+a#acesso-vagas:hover{
+    transition-duration: 0.5s;
+    background: #484450;
+    color: white;
+}
+
+figure{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 840px){
+
+    .logo-home{
+        width: 40%;
+    }
+
+    img#logo-text{
+        width: 60%;
+    }
+
+    figure{
+        display: none;
+    }
+
+    #home-texto{
+        width: 100%;
+    }
+}
