@@ -1,14 +1,18 @@
 <?php
-    if($_GET['email'] && $_GET['senha']){
+    if($_GET['email'] && $_GET['senha'] && $_GET['sm'] && $_GET['id']){
         session_start();
         $email = $_GET['email'];
         $senha = $_GET['senha'];
+        $id = $_GET['id'];
+        $sm = $_GET['sm'];
         $_SESSION['email'] = $email;
         $_SESSION['senha'] = $senha;
-        echo "<center>Bem Vindo Administrador: ".$email. "<a href='logoff.php'> Sair</a><br></center>";
+        $_SESSION['id'] = $id;
+        $_SESSION['sm'] = $sm;
+        echo "<center>Bem Vindo Administrador: "."$email ". "<a href='logoff.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}'>Logout</a><br></center>";
     }
-    elseif(!$_GET['email'] && !$_GET['senha']){
-        header('location: protection.php');
+    elseif(!$_GET['email'] && !$_GET['senha'] && !$_GET['sm'] && !$_GET['id']){
+        header('location: protection1.php');
     }
 ?>
 <!DOCTYPE html>
@@ -38,6 +42,13 @@
             border: 1px solid wheat;
             border-radius: 30px;
             color: white;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: underline;
         }
     </style>
 </head>

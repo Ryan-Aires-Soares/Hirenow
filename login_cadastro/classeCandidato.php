@@ -1,6 +1,6 @@
 <?php
 //include "cadastro_candidato.php";
-include "config2.php";
+include "config.php";
 if(isset($_POST["nome_cand"]) && isset($_POST["nascimento"]) && isset($_POST["email_cand"]) && isset($_POST["senha_cand"])){
     class Candidato{
         public $nome_cand;
@@ -24,5 +24,6 @@ if(isset($_POST["nome_cand"]) && isset($_POST["nascimento"]) && isset($_POST["em
     $id = mysqli_query($conexao, "UPDATE candidato SET Administrador_idUsuarios = (SELECT idUsuarios FROM administrador WHERE idUsuarios = 1)");
     $resultado->close();
     $conexao->close();
-    header('Location: cadastrado.php');
+    sleep(5).
+    header('Location: login.php');
 }

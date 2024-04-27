@@ -87,13 +87,13 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
     }
 $login = new login($_POST["email"], $_POST["password"]);
 
-    $sql_empresa = "SELECT email, senha, tipo FROM empresas WHERE email = '$login->email' AND senha = '$login->senha'";
+    $sql_empresa = "SELECT idEmpresas, email, senha, tipo FROM empresas WHERE email = '$login->email' AND senha = '$login->senha'";
     $resultado_empresa = $conexaoempresa->query($sql_empresa);
 
-    $sql_admin = "SELECT email, senha, tipo FROM administrador WHERE email = '$login->email' AND senha = '$login->senha'";
+    $sql_admin = "SELECT idUsuarios, email, senha, tipo FROM administrador WHERE email = '$login->email' AND senha = '$login->senha'";
     $resultado_admin = $conexaocandidato->query($sql_admin);
     
-    $sql_candidato = "SELECT email_cand, senha_cand, tipo FROM candidato WHERE email_cand = '$login->email' AND senha_cand = '$login->senha'";
+    $sql_candidato = "SELECT idCandidato, email_cand, senha_cand, tipo FROM candidato WHERE email_cand = '$login->email' AND senha_cand = '$login->senha'";
     $resultado_candidato = $conexaocandidato->query($sql_candidato);
 
     $linha = $resultado_candidato->fetch_assoc();
@@ -101,20 +101,24 @@ $login = new login($_POST["email"], $_POST["password"]);
     $linha2 = $resultado_admin->fetch_assoc();
     
     if(mysqli_num_rows($resultado_empresa) != 0 xor mysqli_num_rows($resultado_candidato) != 0 xor mysqli_num_rows($resultado_admin) != 0){
+        
         $_SESSION["email"] = $login->email;
         $_SESSION["senha"] = $login->senha;
-        // $_SESSION["sm"] = $linha xor $linha1;
         if($linha){
             $_SESSION["sm"] = $linha['tipo'];
+            $_SESSION['id'] = $linha['idCandidato'];
         }
         elseif($linha1){
             $_SESSION["sm"] = $linha1['tipo'];
+            $_SESSION['id'] = $linha1['idEmpresas'];
         }
         elseif($linha2){
             $_SESSION['sm'] = $linha2['tipo'];
+            $_SESSION['id'] = $linha2['idUsuarios'];
         }
         header("location: logado.php");
     }
+
     elseif(mysqli_num_rows($resultado_empresa) < 1 xor mysqli_num_rows($resultado_candidato) < 1 xor mysqli_num_rows($resultado_admin) < 1){
         session_destroy();
         header("location: notfound.php");

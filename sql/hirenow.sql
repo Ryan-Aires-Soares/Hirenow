@@ -206,6 +206,7 @@ DROP TABLE IF EXISTS `vagas`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vagas` (
   `idVagas` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(80) NOT NULL,
   `descricao` varchar(300) NOT NULL,
   `requisitos` varchar(45) NOT NULL,
   `pagamento` decimal(5,2) NOT NULL,
@@ -213,7 +214,7 @@ CREATE TABLE `vagas` (
   PRIMARY KEY (`idVagas`),
   KEY `id_empresa_idx` (`id_empresa`),
   CONSTRAINT `id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`idEmpresas`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,6 +223,7 @@ CREATE TABLE `vagas` (
 
 LOCK TABLES `vagas` WRITE;
 /*!40000 ALTER TABLE `vagas` DISABLE KEYS */;
+INSERT INTO `vagas` VALUES (1,'Analista de Sistemas','Descrição','Requisitos',700.00,1),(5,'Estágio Suporte Técnico','Suporte','Redes de Computadores',700.00,1),(7,'Administração','Adm','Administração',999.99,1);
 /*!40000 ALTER TABLE `vagas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -234,4 +236,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-26 18:34:46
+-- Dump completed on 2024-04-27 14:19:17
