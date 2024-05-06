@@ -1,6 +1,5 @@
 <?php
-//include "cadastro_empresa.php";
-include "config.php";
+include "../configs/config.php";
 if(isset($_POST["nome"]) && isset($_POST["cnpj"]) && isset($_POST["email"]) && isset($_POST["senha"])){
     class Empresa{
         public $nome;
@@ -23,6 +22,5 @@ if(isset($_POST["nome"]) && isset($_POST["cnpj"]) && isset($_POST["email"]) && i
     $id = mysqli_query($conexao1, "UPDATE empresas SET Administrador_idUsuarios = (SELECT idUsuarios FROM administrador WHERE idUsuarios = 1)");
     $resultado1->close();
     $conexao1->close();
-    sleep(5).
-    header('Location: login.php');
+    header('Location: cadastrado.php');
 }

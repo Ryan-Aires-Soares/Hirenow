@@ -1,6 +1,5 @@
 <?php
 //include "cadastro_candidato.php";
-include "config.php";
 if(isset($_POST["nome_cand"]) && isset($_POST["nascimento"]) && isset($_POST["email_cand"]) && isset($_POST["senha_cand"])){
     class Candidato{
         public $nome_cand;
@@ -18,12 +17,12 @@ if(isset($_POST["nome_cand"]) && isset($_POST["nascimento"]) && isset($_POST["em
     $date = date_create($candidato->data_cand);
     $tipo_cand = 2;
     $formatada = date_format($date, "Y-m-d");
-    $resultado = $conexao->prepare("INSERT INTO candidato(nome_cand, data_nasc, email_cand, senha_cand, tipo) VALUES (?, ?, ?, ?, ?)");
+    include "../configs/config.php";
+    $resultado = $conexao1->prepare("INSERT INTO candidato(nome_cand, data_nasc, email_cand, senha_cand, tipo) VALUES (?, ?, ?, ?, ?)");
     $resultado->bind_param('ssssi', $candidato->nome_cand, $candidato->data_cand, $candidato->email_cand, $candidato->senha_cand, $tipo_cand);
     $resultado->execute();
-    $id = mysqli_query($conexao, "UPDATE candidato SET Administrador_idUsuarios = (SELECT idUsuarios FROM administrador WHERE idUsuarios = 1)");
+    $id = mysqli_query($conexao1, "UPDATE candidato SET Administrador_idUsuarios = (SELECT idUsuarios FROM administrador WHERE idUsuarios = 1)");
     $resultado->close();
-    $conexao->close();
-    sleep(5).
-    header('Location: login.php');
+    $conexao1->close();
+    header('Location: cadastrado.php');
 }

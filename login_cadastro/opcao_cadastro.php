@@ -39,8 +39,8 @@
             <h1>O que você é?</h1>
             
 <!-- Opção -->
-        <a href="cadastro_empresa.php" id="cadastro">Empresa</a>      
-        <a href="cadastro_candidato.php" id="cadastro">Candidato</a>         
+        <a href="cadastro/cadastro_empresa.php" id="cadastro">Empresa</a>      
+        <a href="cadastro/cadastro_candidato.php" id="cadastro">Candidato</a>         
         <!-- <a href="cadastro_freelancer.php" id="cadastro">Contratente de Freelancer</a>          -->
         </form>
     </div>    

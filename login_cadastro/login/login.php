@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="shortcut icon" href="../Imagens/logos/favicon/hirenow_favicon.ico" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -20,8 +20,8 @@
     <div id="content-login">
         <form action="login.php" method="post">
             <figure id="logo">
-                <img src="../imagens/logos/hirenow_logo.png" alt="Logo Ícone" id="logo">
-                <img src="../imagens/logos/hirenow_word.png" alt="Logo" id="logo">
+                <img src="../../imagens/logos/hirenow_logo.png" alt="Logo Ícone" id="logo">
+                <img src="../../imagens/logos/hirenow_word.png" alt="Logo" id="logo">
             </figure>
             
 <!-- Email -->
@@ -38,7 +38,7 @@
                 <span class="icon"><i class='bx bx-lock'  style='color:#ffffff'></i></span>
             </div>
             <span id="senha">
-                <a href="#" id="recuperar-senha">Esquceu a senha?</a>
+                <a href="#" id="recuperar-senha">Esqueceu a senha?</a>
             </span>
 
 <!-- Recaptcha -->
@@ -48,11 +48,11 @@
             <button type="submit" onclick="return valida()">Login</button>
 
 <!-- Função JS Validar Recaptcha -->
-            <script src="../recaptcha/script.js"> </script>
+            <script src="../../recaptcha/script.js"> </script>
 
 <!-- Validação PHP -->
             <?php
-                include '../recaptcha/recaptcha.php';
+                include '../../recaptcha/recaptcha.php';
             ?>
 
             <div class="line">
@@ -62,17 +62,17 @@
             </div> 
         </form>
         
-        <a href="opcao_cadastro.php" id="cadastro">Cadastre-se</a>      
+        <a href="../opcao_cadastro.php" id="cadastro">Cadastre-se</a>      
     </div>
 
     <figure id="fundo-login">
-        <img src="../imagens/computer-login-animate.svg" alt="" title="https://storyset.com/work User illustrations by Storyset" id="fundo-login-svg">
+        <img src="../../imagens/computer-login-animate.svg" alt="" title="https://storyset.com/work User illustrations by Storyset" id="fundo-login-svg">
     </figure>
 </body>
 </html>
 <?php
 session_start();
-include "configlogin.php";
+include "../configs/configlogin.php";
 if(isset($_POST["email"]) && isset($_POST["password"])){
     class login{
         public $email;
@@ -101,24 +101,31 @@ $login = new login($_POST["email"], $_POST["password"]);
     $linha2 = $resultado_admin->fetch_assoc();
     
     if(mysqli_num_rows($resultado_empresa) != 0 xor mysqli_num_rows($resultado_candidato) != 0 xor mysqli_num_rows($resultado_admin) != 0){
-        
-        $_SESSION["email"] = $login->email;
-        $_SESSION["senha"] = $login->senha;
-        if($linha){
-            $_SESSION["sm"] = $linha['tipo'];
-            $_SESSION['id'] = $linha['idCandidato'];
+        $_SESSION['email'] = urlencode($linha['email_cand']);
+        $_SESSION['email1'] = urlencode($linha1['email']);
+        $_SESSION['email2'] = urlencode($linha2['email']);
+        $_SESSION['senha'] = urlencode($linha['senha_cand']);
+        $_SESSION['senha1'] = urlencode($linha1['senha']);
+        $_SESSION['senha2'] = urlencode($linha2['senha']);
+        $_SESSION['sm'] = urlencode($linha['tipo']);
+        $_SESSION['sm1'] = urlencode($linha1['tipo']);
+        $_SESSION['sm2'] = urlencode($linha2['tipo']);
+        $_SESSION['id'] = urlencode($linha['idCandidato']);
+        $_SESSION['id1'] = urlencode($linha1['idEmpresas']);
+        $_SESSION['id2'] = urlencode($linha2['idUsuarios']);
+        if($_SESSION['email'] != null && $_SESSION['senha'] != null && $_SESSION['sm'] != null && $_SESSION['id'] != null){
+            header("location: ../Cand/vagas1.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}");
         }
-        elseif($linha1){
-            $_SESSION["sm"] = $linha1['tipo'];
-            $_SESSION['id'] = $linha1['idEmpresas'];
+        elseif($_SESSION['email1'] != null && $_SESSION['senha1'] != null && $_SESSION['sm1'] != null && $_SESSION['id1'] != null){
+            header("location: ../Emp/vagas.php?email={$_SESSION['email1']}&senha={$_SESSION['senha1']}&sm={$_SESSION['sm1']}&id={$_SESSION['id1']}");
         }
-        elseif($linha2){
-            $_SESSION['sm'] = $linha2['tipo'];
-            $_SESSION['id'] = $linha2['idUsuarios'];
+        elseif($_SESSION['email2'] != null && $_SESSION['senha2'] != null && $_SESSION['sm2'] != null && $_SESSION['id2'] != null){
+            header("location: ../Adm/adm.php?email={$_SESSION['email2']}&senha={$_SESSION['senha2']}&sm={$_SESSION['sm2']}&id={$_SESSION['id2']}");
         }
-        header("location: logado.php");
+        else{
+            echo "Erro";
+        }
     }
-
     elseif(mysqli_num_rows($resultado_empresa) < 1 xor mysqli_num_rows($resultado_candidato) < 1 xor mysqli_num_rows($resultado_admin) < 1){
         session_destroy();
         header("location: notfound.php");

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="../Imagens/logos/favicon/hirenow_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="shortcut icon" href="../../Imagens/logos/favicon/hirenow_favicon.ico" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Cadastro</title>
@@ -37,7 +37,7 @@
         <form action="classeEmpresa.php" method="post">
             <figure id="logo">
                 <!-- <img src="../Imagens/logos/hirenow_logo.png" alt="Logo Ícone" id="logo"> -->
-                <img src="../imagens/logos/hirenow_word.png" alt="Logo" id="logo">
+                <img src="../../imagens/logos/hirenow_word.png" alt="Logo" id="logo">
             </figure>
 
 <!-- Nome da Empresa -->
@@ -78,7 +78,7 @@
             <button type="submit" onclick="return valida()">Criar conta</button>
             
 <!-- Função JS Validar Recaptcha -->
-<script src="../recaptcha/script.js"> </script>
+<script src="../../recaptcha/script.js"> </script>
 
             <div class="line">
                 <div id="line1"></div>
@@ -91,7 +91,7 @@
     </div>
 
     <figure id="fundo-login">
-        <img src="../imagens/on-the-office-animate.svg" alt="" title="https://storyset.com/work Work illustrations by Storyset" id="fundo-login-svg">
+        <img src="../../imagens/on-the-office-animate.svg" alt="" title="https://storyset.com/work Work illustrations by Storyset" id="fundo-login-svg">
     </figure>
 </body>
 </html>

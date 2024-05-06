@@ -15,7 +15,7 @@
         </div>
         <nav>
             <ul type="none">
-                <li id="li-login"><a href="../login_cadastro/login.php" class="a-btn">Login</a></li>    
+                <li id="li-login"><a href="../login_cadastro/login/login.php" class="a-btn">Login</a></li>    
                 <li><a href="../login_cadastro/opcao_cadastro.php" class="a-btn">Cadastro</a></li>
             </ul>   
         </nav>
