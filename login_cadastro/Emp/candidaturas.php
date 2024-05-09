@@ -12,9 +12,8 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
     foreach($funciona as $func){
         $nao = $func['id_vaga'];
         $sim = $func['curriculo_candidato'];
-        $cur_cand = "SELECT * FROM curriculo JOIN interessados ON curriculo.idCurriculo = interessados.curriculo_candidato WHERE interessados.curriculo_candidato = curriculo.idCurriculo AND interessados.id_vaga = $nao";
+        $cur_cand = "SELECT * FROM curriculo JOIN interessados ON curriculo.idCurriculo = interessados.curriculo_candidato WHERE interessados.curriculo_candidato = curriculo.idCurriculo AND interessados.id_vaga = $nao AND curriculo.Candidato_idCandidato IS NOT NULL";
         $cur_res = $conexao1->query($cur_cand);
-        $cur_linha = $cur_res->fetch_assoc();
     }
 }
 ?>
@@ -43,23 +42,6 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
             text-align: center;
             padding: 10px;
             border: 0.1mm solid #020a0e;
-        }
-        .del {
-        background-color: wheat;
-        color: black;
-        border: 2px solid wheat;
-        border-radius: 30px;
-        text-decoration: none;
-        text-decoration: none;
-        font-size: 1em;
-        }
-
-        .del:hover {
-            background-color: wheat;
-            border: 2px solid black;
-            border-radius: 30px;
-            text-decoration: none;
-            color: black;
         }
     </style>
     <title>Document</title>
@@ -111,7 +93,7 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
       <p>Teste</p>
       <h4>E-mail</h4>
       <p>teste@gmail.com</p>
-      <a href="../Cand/curriculo/estrutura_curriculo.php" class="link-nav-hamb">Editar Perfil</a><br />
+      <a href="<?="candidaturas.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Editar Perfil</a><br />
       <a href="<?="../login/logoff.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Sair</a>
     </div>
   </div><!--content-perfi-->
@@ -126,34 +108,32 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
 </header>
 
     <h1>Candidatos da vaga <?=$idvaga?></h1><br>
-    <center>
-    <table class="tabela" align="center" border="1">
-        <thead>
-            <th>idCurriculo</th>
-            <th>escolaridade</th>
-            <th>sexo</th>
-            <th>linguas</th>
-            <th>interpessoais</th>
-            <th>descricao</th>
-            <th>portifolio</th>
-            <th>ID candidato</th>
-        </thead>
-        <?php foreach($cur_res as $lin): ?>
-        <tbody>
-            <?php $nome_arquivo = basename($lin['portifolio']); $tipo_arquivo = mime_content_type($lin['portifolio']); ?>
-            <td><?= $lin['idCurriculo'] ?></td>
-            <td><?= $lin['escolaridade'] ?></td>
-            <td><?= $lin['sexo'] ?></td>
-            <td><?= $lin['linguas'] ?></td>
-            <td><?= $lin['interpessoais'] ?></td>
-            <td><?= $lin['descricao'] ?></td>
-            <td><a href="<?="download_cur.php?nome_arquivo={$nome_arquivo}&tipo_arquivo={$tipo_arquivo}&endereco_arquivo={$lin['portifolio']}"?>"><?= basename($lin['portifolio']); ?></a></td>
-            <td><?= $lin['Candidato_idCandidato'] ?></td>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-        </center>
+        <?php while($cur = $cur_res->fetch_assoc()): ?>
+            <?php $nome_arquivo = basename($cur['portifolio']); $tipo_arquivo = mime_content_type($cur['portifolio']); ?>
+            <?= '<div style="width: 100vw; display: flex; justify-content: center;">
+                    <div style="width: 80%; border: 2px solid black; margin-top: 5vh; border-radius: 10px; padding: 10px;">
+                    <div style="display: flex; justify-content: space-between;">'.'<h3>ID Currículo: '."{$cur['idCurriculo']}".'</h3>'.'<h3>'.'Escolaridade: '."{$cur['escolaridade']}".'<h3>ID Candidato: '."{$cur['Candidato_idCandidato']}".'</h3>'.'</h3></div><br>'.'<h4 style="font-size: 1.3em;></h4>'.'<p style="font-size: 1.2em;">Sexo: '."{$cur['sexo']}".'</p><br>'.'<h4>Línguas:</h4>
+                    <p style="text-align: center;">'."{$cur['linguas']}".'</p><h4>Interpessoais:</h4>
+                    <ul style="margin-left: 0px;">'."<li>{$cur['interpessoais']}</li>".'</ul>'.'<h4>Descrição: </h4>'."{$cur['descricao']}".'<div style="width: 100%; display: flex; justify-content: center;">'.'</div>'.'</div></div>'?>
+                    <center><h3 style="margin-top: 0px; width: 10%; display: flex;">Portifólio:<a href="<?="download_cur.php?nome_arquivo={$nome_arquivo}&tipo_arquivo={$tipo_arquivo}&endereco_arquivo={$cur['portifolio']}"?>" style="width: 10%;"><h6 style="margin-top: 0px; width: 10%; display: flex;"><?=basename($cur['portifolio'])?></h6></a></h3></center>
+                    <?php endwhile; ?>
     <br>
-    <a class="del" href="<?="deletarvagas.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>">Gerenciar Vagas</a>
+    <br>
+    <a href="<?="deletarvagas.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" style="line-height: 5.5vh;
+                    text-align: center;
+                    font-size: 1em;
+                    padding: 3px;
+                    position: relative;
+                    width: 100%;
+                    height: 5.5vh;
+                    border-radius: 5px;
+                    border: none;
+                    margin-top: 4vh;
+                    background-color: #459A96;
+                    color: #fff;
+                    cursor: pointer;
+                    letter-spacing: 0.09em;
+                    text-transform: uppercase;
+                    transition-duration: 0.5s;">Gerenciar Vagas</a>
 </body>
 </html>

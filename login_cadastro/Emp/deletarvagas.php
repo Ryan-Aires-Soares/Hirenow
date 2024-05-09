@@ -35,32 +35,6 @@ if(isset($_GET['email']) && isset($_GET['senha']) && isset($_GET['sm']) && isset
     a:hover {
         text-decoration: underline;
     }
-
-    .tabela {
-        border-collapse: collapse;
-    }
-
-    .tabela tbody td,
-    th {
-        text-align: center;
-        padding: 10px;
-        border: 0.1mm solid #020a0e;
-    }
-
-    .tabela button {
-        background-color: wheat;
-        color: black;
-        border: 0px solid wheat;
-        border-radius: 30px;
-        text-decoration: none;
-    }
-
-    .tabela button:hover {
-        background-color: wheat;
-        border: 1px solid black;
-        border-radius: 30px;
-        color: black;
-    }
     </style>
     <link rel="shortcut icon" href="../Imagens/logos/favicon/hirenow_favicon.ico" type="image/x-icon">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
@@ -114,10 +88,11 @@ if(isset($_GET['email']) && isset($_GET['senha']) && isset($_GET['sm']) && isset
       <h3>Perfil</h3>
       <img src="../../imagens/perfil/perfil.png" alt="Foto de Perfil" id="img_perfil" style="border: 2px solid black;"/>
       <h4>Nome</h4>
-      <p>Teste</p>
+      <?php include "../configs/config.php"; $teste = mysqli_query($conexao1, "SELECT nome FROM empresas WHERE idEmpresas = $del->id"); $tes = $teste->fetch_assoc(); ?>
+      <p><?=$tes['nome'];?></p>
       <h4>E-mail</h4>
-      <p>teste@gmail.com</p>
-      <a href="../Cand/curriculo/estrutura_curriculo.php" class="link-nav-hamb">Editar Perfil</a><br />
+      <p><?=$_GET['email'];?></p>
+      <a href="<?="perfil_emp.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}"?>" class="link-nav-hamb">Editar Perfil</a><br />
       <a href="<?="../login/logoff.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}"?>" class="link-nav-hamb">Sair</a>
     </div>
   </div><!--content-perfi-->
@@ -142,46 +117,67 @@ if(isset($_GET['email']) && isset($_GET['senha']) && isset($_GET['sm']) && isset
     <br>
     <h1>Vagas da Empresa: <?=$res['nome'];?><?php endforeach; ?></h1>
     <br>
-    <center>
-    <table class="tabela" align="center">
-        <thead>
-            <th>Editar</th>
-            <th>Candidaturas</th>
-            <th>Delete</th>
-            <th>idVagas</th>
-            <th>area</th>
-            <th>titulo</th>
-            <th>tipo</th>
-            <th>descricao</th>
-            <th>requisitos</th>
-            <th>pagamento</th>
-            <th>id_empresa</th>
-        </thead>
         <?php
         include "../configs/config.php";
         $ye = ("SELECT * FROM vagas WHERE id_empresa = $del->id");
         $stmt = $conexao1->query($ye);
-        $data = $stmt->fetch_assoc();
-        foreach($stmt as $linha):
+        while($data = $stmt->fetch_assoc()):
         ?>
-        <tbody>
-            <td> <?="<a href='editarvaga.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}&idvaga={$linha['idVagas']}'><button style='font-size: 0.6em;'>Editar</button></a>"?> </td>
-            <td> <?= "<a href='candidaturas.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}&idvaga={$linha['idVagas']}'><button style='font-size: 0.6em;'>Candidaturas</button></a>" ?>
-            </td>
-            <td><?= "<a href='semvaga.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}&idvaga={$linha['idVagas']}'><button style='font-size: 0.6em;'>Delete</button></a>" ?>
-            </td>
-            <td> <?= $linha['idVagas'] ?> </td>
-            <td> <?= $linha['area']?> </td>
-            <td> <?= $linha['titulo'] ?> </td>
-            <td> <?= $linha['tipo_vaga'] ?> </td>
-            <td> <?= $linha['descricao'] ?> </td>
-            <td> <?= $linha['requisitos']. ";<br>" .$linha['requisitos2']. ";<br>" . $linha['requisitos3']. ";<br>" . $linha['requisitos4']. ";<br>" . $linha['requisitos5'] . ";"  ?> </td>
-            <td> <?= $linha['pagamento'] ?> </td>
-            <td> <?= $linha['id_empresa'] ?> </td>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-        </center>
+        <?= '<div style="width: 100vw; display: flex; justify-content: center;">
+                    <div style="width: 80%; border: 2px solid black; margin-top: 5vh; border-radius: 10px; padding: 10px;">
+                    <div style="display: flex; justify-content: space-between;">'.'<h3>Título: '."{$data['titulo']}".'</h3>'.'<h3>ID Vaga: '."{$data['idVagas']}".'</h3>'.'<h3>'.'R$ '."{$data['pagamento']}".'</h3></div><br>'.'<h4 style="font-size: 1.3em;>'.'Área: </h4>'.'<p style="font-size: 1.2em;">Area: '."{$data['area']}".'</p><br>'.'<h4>Descrição:</h4>
+                    <p style="text-align: center;">'."{$data['descricao']}".'</p><h4>Requisitos:</h4>
+                    <ul style="margin-left: 0px;">'."<li>{$data['requisitos']}</li><li>{$data['requisitos2']}</li><li>{$data['requisitos3']}</li><li>{$data['requisitos4']}</li><li>{$data['requisitos5']}</li>".'</ul>'.'<div style="width: 100%; display: flex; justify-content: center;">'.'</div>'.'</div></div>'; ?>
+                    <center><a style="line-height: 5.5vh;
+                    text-align: center;
+                    font-size: 1em;
+                    padding: 3px;
+                    position: relative;
+                    width: 100%;
+                    height: 5.5vh;
+                    border-radius: 5px;
+                    border: none;
+                    margin-top: 4vh;
+                    background-color: #459A96;
+                    color: #fff;
+                    cursor: pointer;
+                    letter-spacing: 0.09em;
+                    text-transform: uppercase;
+                    transition-duration: 0.5s;" href="<?="editarvaga.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}&idvaga={$data['idVagas']}"?>">Editar</a>
+                    
+                    <a style="line-height: 5.5vh;
+                    text-align: center;
+                    font-size: 1em;
+                    padding: 3px;
+                    position: relative;
+                    width: 100%;
+                    height: 5.5vh;
+                    border-radius: 5px;
+                    border: none;
+                    margin-top: 4vh;
+                    background-color: #459A96;
+                    color: #fff;
+                    cursor: pointer;
+                    letter-spacing: 0.09em;
+                    text-transform: uppercase;
+                    transition-duration: 0.5s;" href="<?="candidaturas.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}&idvaga={$data['idVagas']}"?>">Candidaturas</a>
+                    
+                    <a style="line-height: 5.5vh;
+                    text-align: center;
+                    font-size: 1em;
+                    padding: 3px;
+                    position: relative;
+                    width: 100%;
+                    height: 5.5vh;
+                    border-radius: 5px;
+                    border: none;
+                    margin-top: 4vh;
+                    background-color: #459A96;
+                    color: #fff;
+                    cursor: pointer;
+                    letter-spacing: 0.09em;
+                    text-transform: uppercase;
+                    transition-duration: 0.5s;" href="<?="semvaga.php?email={$del->email}&senha={$del->senha}&sm={$del->sm}&id={$del->id}&idvaga={$data['idVagas']}"?>">Delete</a></center>
+            <?php endwhile; ?>
 </body>
-
 </html>

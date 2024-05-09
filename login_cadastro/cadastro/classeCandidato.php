@@ -22,7 +22,15 @@ if(isset($_POST["nome_cand"]) && isset($_POST["nascimento"]) && isset($_POST["em
     $resultado->bind_param('ssssi', $candidato->nome_cand, $candidato->data_cand, $candidato->email_cand, $candidato->senha_cand, $tipo_cand);
     $resultado->execute();
     $id = mysqli_query($conexao1, "UPDATE candidato SET Administrador_idUsuarios = (SELECT idUsuarios FROM administrador WHERE idUsuarios = 1)");
+    if($resultado){
+        echo "<script>alert('cadastrado com sucesso!')</script>";
+        header('Location: ../login/login.php'); 
+    }
+    else{
+        echo "<script>alert('erro ao cadastrar')</script>";
+        header('Location: cadastro_candidato.php'); 
+    }
     $resultado->close();
     $conexao1->close();
-    header('Location: cadastrado.php');
+    
 }

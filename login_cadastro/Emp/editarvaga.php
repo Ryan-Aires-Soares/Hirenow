@@ -67,7 +67,7 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
       <p>Teste</p>
       <h4>E-mail</h4>
       <p>teste@gmail.com</p>
-      <a href="../Cand/curriculo/estrutura_curriculo.php" class="link-nav-hamb">Editar Perfil</a><br />
+      <a href="<?="perfil_emp.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Editar Perfil</a><br />
       <a href="<?="../login/logoff.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Sair</a>
     </div>
   </div><!--content-perfi-->

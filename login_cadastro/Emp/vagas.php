@@ -99,7 +99,7 @@ elseif(!isset($_GET['email']) && !isset($_GET['senha']) && !isset($_GET['sm']) &
     <nav class="navegation">
         <span class="nav-span-menu">
         <i class="bx bx-briefcase"></i>
-        <a href="../update_vaga/estrutura_update_vaga.php" class="nav-link">Vagas</a>
+        <a href="<?="deletarvagas.php?email={$vagas->email}&senha={$vagas->senha}&sm={$vagas->sm}&id={$vagas->id}"?>" class="nav-link">Vagas</a>
         </span>
 
         <span class="nav-span-menu">
@@ -118,10 +118,11 @@ elseif(!isset($_GET['email']) && !isset($_GET['senha']) && !isset($_GET['sm']) &
       <h3>Perfil</h3>
       <img src="../../imagens/perfil/perfil.png" alt="Foto de Perfil" id="img_perfil" style="border: 2px solid black;"/>
       <h4>Nome</h4>
-      <p>Teste</p>
+      <?php include "../configs/config.php"; $teste = mysqli_query($conexao1, "SELECT nome FROM empresas WHERE idEmpresas = $vagas->id"); $tes = $teste->fetch_assoc(); ?>
+      <p><?=$tes['nome'];?></p>
       <h4>E-mail</h4>
-      <p>teste@gmail.com</p>
-      <a href="../Cand/curriculo/estrutura_curriculo.php" class="link-nav-hamb">Editar Perfil</a><br />
+      <p><?=$_GET['email'];?></p>
+      <a href="<?="perfil_emp.php?email={$vagas->email}&senha={$vagas->senha}&sm={$vagas->sm}&id={$vagas->id}"?>" class="link-nav-hamb">Editar Perfil</a><br />
       <a href="<?="../login/logoff.php?email={$vagas->email}&senha={$vagas->senha}&sm={$vagas->sm}&id={$vagas->id}"?>" class="link-nav-hamb">Sair</a>
     </div>
   </div><!--content-perfi-->

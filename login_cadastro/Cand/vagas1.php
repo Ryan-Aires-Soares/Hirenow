@@ -82,13 +82,13 @@
                     <h3>Perfil</h3>
                     <img src="../../imagens/perfil/perfil.png" alt="Foto de Perfil" id="img_perfil" />
                     <h4>Nome</h4>
-                    <p>Teste</p>
+                    <?php include "../configs/config.php"; $nome = mysqli_query($conexao1, "SELECT nome_cand FROM candidato WHERE idCandidato = {$_GET['id']}"); $no = $nome->fetch_assoc(); ?>
+                    <p><?=$no['nome_cand'];?></p>
                     <h4>E-mail</h4>
                     <p><?=urldecode($_GET['email']);?></p>
-                    <a href="<?="estrutura_curriculo.php?email={$a}&senha={$b}&sm={$c}&id={$d}"?>"
-                        class="link-nav-hamb">Editar Currículo</a><br />
-                    <a href="<?="../login/logoff.php?email={$a}&senha={$b}&sm={$c}&id={$d}"?>"
-                        class="link-nav-hamb">Sair</a>
+                    <?php include "../configs/config.php"; $criar_editar = mysqli_query($conexao1, "SELECT * FROM curriculo WHERE Candidato_idCandidato = $d"); ?>
+                    <a href="<?= mysqli_num_rows($criar_editar) == 1 ? "editar_curriculo.php?email={$a}&senha={$b}&sm={$c}&id={$d}" : "estrutura_curriculo.php?email={$a}&senha={$b}&sm={$c}&id={$d}" ?>" class="link-nav-hamb"> <?= mysqli_num_rows($criar_editar) == 1 ? "Editar Currículo" : "Criar Currículo" ?> </a><br />
+                    <a href="<?="../login/logoff.php?email={$a}&senha={$b}&sm={$c}&id={$d}"?>" class="link-nav-hamb">Sair</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -122,6 +122,14 @@ if(urldecode($_GET['email']) && urldecode($_GET['senha']) && urldecode($_GET['sm
         public function __toString(){
             return "<br>Email: {$this->email} | Senha: {$this->senha} | sm: {$this->sm} | id: {$this->id}";
         }
+        // public function criar_curriculo($a, $b, $c, $d){
+        //     include "../configs/config.php";
+        //     $criar = mysqli_query($conexao1, "SELECT * FROM curriculo WHERE Candidato_idCandidato = $d");
+        //     if(mysqli_num_rows($criar) == 0){
+        //         header("location: estrutura_curriculo.php?email={$a}&senha={$b}&sm={$c}&id={$d}");
+        //         exit();
+        //     }
+        // }
         public function ver($a, $b, $c, $d){
             include "../configs/config.php";
             $sql = ("SELECT * FROM vagas WHERE id_empresa != 'NULL'");
@@ -133,7 +141,7 @@ if(urldecode($_GET['email']) && urldecode($_GET['senha']) && urldecode($_GET['sm
                     <div style="display: flex; justify-content: space-between;">'.'<h3>Título: '."{$linha['titulo']}".'</h3>'.'<h3>'.'R$ '."{$linha['pagamento']}".'</h3></div><br>'.'<h4 style="font-size: 1.3em;>'.'Área: </h4>'.'<p style="font-size: 1.2em;">'."{$linha['area']}".'</p><br>'.'<h4>Descrição:</h4>
                     <p style="text-align: justify;">'."{$linha['descricao']}".'</p><h4>Requisitos:</h4>
                     <ul style="margin-left: 30px;">'."<li>{$linha['requisitos']}</li><li>{$linha['requisitos2']}</li><li>{$linha['requisitos3']}</li><li>{$linha['requisitos4']}</li><li>{$linha['requisitos5']}</li>".'</ul>'.'<div style="width: 100%; display: flex; justify-content: center;">'.'</div>'.'</div></div>';?>
-<center><a href='<?="aplicado.php?email={$a}&senha={$b}&sm={$c}&id={$d}&idvaga={$linha['idVagas']}"?>' style="line-height: 5.5vh;
+                    <center><a href='<?="aplicado.php?email={$a}&senha={$b}&sm={$c}&id={$d}&idvaga={$linha['idVagas']}"?>' style="line-height: 5.5vh;
                     margin-left: 25%;
                     margin-right: 25%;
                     text-align: center;
@@ -152,15 +160,14 @@ if(urldecode($_GET['email']) && urldecode($_GET['senha']) && urldecode($_GET['sm
                     text-transform: uppercase;
                     transition-duration: 0.5s;">
         <?php $curriculo = mysqli_query($conexao1, "SELECT * FROM curriculo WHERE Candidato_idCandidato = $d");
-    $colunas = $curriculo->fetch_assoc(); 
-    foreach($curriculo as $col){$jaexiste = mysqli_query($conexao1, "SELECT * FROM interessados WHERE id_vaga = {$linha['idVagas']} AND curriculo_candidato = {$col['idCurriculo']}");}?><?= $jaexiste->num_rows == 1 ? 'DESCANDIDATAR' : 'CANDiDATAR'; ?>
-    </a>
-</center><?php
+        $colunas = $curriculo->fetch_assoc(); 
+        foreach($curriculo as $col){$jaexiste = mysqli_query($conexao1, "SELECT * FROM interessados WHERE id_vaga = {$linha['idVagas']} AND curriculo_candidato = {$col['idCurriculo']}");}?><?= $jaexiste->num_rows == 1 ? 'DESCANDIDATAR' : 'CANDiDATAR'; ?></a></center><?php
                 }
             }
         }
     }
     $res = new Resultado(urlencode($_GET['email']), urlencode($_GET['senha']), urlencode($_GET['sm']), urlencode($_GET['id']));
     $res->ver($res->email, $res->senha, $res->sm, $res->id);
+    // $res->criar_curriculo($res->email, $res->senha, $res->sm, $res->id);
 }
 ?>

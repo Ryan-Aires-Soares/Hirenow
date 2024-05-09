@@ -5,7 +5,7 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
     $sm = urlencode($_GET['sm']);
     $id = urlencode($_GET['id']);
     if(isset($_POST['escolaridade']) && isset($_POST['sexo']) && isset($_POST['lingua']) && isset($_POST['interpessoal']) && isset($_POST['descricao']) && isset($_FILES['arquivo'])){
-        class Curriculo {
+        class Editar {
             public $escolaridade;
             public $sexo;
             public $lingua;
@@ -24,38 +24,47 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
             }
             public function url($dir){
                 include "../configs/config.php";
-                $em = urlencode($_GET['email']);
-                $se = urlencode($_GET['senha']);
-                $sm = urlencode($_GET['sm']);
                 $id_cand = urlencode($_GET['id']);
                 $consulta = mysqli_query($conexao1, "SELECT * FROM curriculo WHERE Candidato_idCandidato = $id_cand");
                 $con = $consulta->fetch_assoc();
                 
                 $caminho = $dir."/".$this->nome_arquivo;
                 move_uploaded_file($this->arquivo, $caminho);
-                
-                $rota = $conexao1->prepare("INSERT INTO curriculo(escolaridade, sexo, linguas, interpessoais, descricao, portifolio, Candidato_idCandidato) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $rota->bind_param('ssssssi', $this->escolaridade, $this->sexo, $this->lingua, $this->interpessoal, $this->descricao, $caminho, $id_cand);
-                $rota->execute();
-                if($rota){
-                    echo "<script>alert('Currículo Enviado!');</script>";
-                    header("location: vagas1.php?email={$em}&senha={$se}&sm={$sm}&id={$id_cand}");
-                    exit();
+
+                if($consulta->num_rows == 1){
+                    if($this->nome_arquivo == null){
+                    $query1 = $conexao1->prepare("UPDATE curriculo SET escolaridade = ?, sexo = ?, linguas = ?, interpessoais = ?, descricao = ? WHERE Candidato_idCandidato = ?");
+                    $query1->bind_param('sssssi', $this->escolaridade, $this->sexo, $this->lingua, $this->interpessoal, $this->descricao, $id_cand);
+                    $query1->execute();
+                    if($query1){
+                        echo "<script>alert('editado');</script>";
+                    }
+                    else{
+                        echo "<script>alert('não editado');</script>";
+                    }
+                    $query1->close();
+                    }
+                    elseif($this->nome_arquivo != null){
+                    $query = $conexao1->prepare("UPDATE curriculo SET escolaridade = ?, sexo = ?, linguas = ?, interpessoais = ?, descricao = ?, portifolio = ? WHERE Candidato_idCandidato = ?");
+                    $query->bind_param('ssssssi', $this->escolaridade, $this->sexo, $this->lingua, $this->interpessoal, $this->descricao, $caminho, $id_cand);
+                    $query->execute();
+                    if($query){
+                        echo "<script>alert('editado');</script>";
+                    }
+                    else{
+                        echo "<script>alert('não editado');</script>";
+                    }
+                    $query->close();
+                    }
                 }
-                else{
-                    echo "<script>alert('Currículo não enviado');</script>";
-                }
-                $rota->close();    
                 $conexao1->close();
-                exit();
-                }
+            }
             public function __toString(){
                 return "$this->escolaridade | $this->sexo | $this->lingua | $this->interpessoal | $this->descricao | $this->arquivo | $this->nome_arquivo";
             }
         }
-        $cur = new Curriculo($_POST['escolaridade'], $_POST['sexo'], implode(" - ", $_POST['lingua']), implode(" - ", $_POST['interpessoal']), $_POST['descricao'], $_FILES['arquivo']['tmp_name'], $_FILES['arquivo']['name']);
-        // echo $cur->jaexiste($email, $senha, $sm, $id);
-        $cur->url(__DIR__."/armazenamento");
+        $cr = new Editar($_POST['escolaridade'], $_POST['sexo'], implode(" - ", $_POST['lingua']), implode(" - ", $_POST['interpessoal']), $_POST['descricao'], $_FILES['arquivo']['tmp_name'], $_FILES['arquivo']['name']);
+        $cr->url(__DIR__."/armazenamento");
     }
 }
 ?>
@@ -95,7 +104,7 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
     <nav class="navegation">
         <span class="nav-span-menu">
         <i class="bx bx-briefcase"></i>
-        <a href="#" class="nav-link">Vagas</a>
+        <a href="<?="vagas1.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="nav-link">Vagas</a>
         </span>
 
         <span class="nav-span-menu">
@@ -114,11 +123,11 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
       <h3>Perfil</h3>
       <img src="../../imagens/perfil/perfil.png" alt="Foto de Perfil" id="img_perfil"/>
       <h4>Nome</h4>
-      <?php include "../configs/config.php"; $nome = mysqli_query($conexao1, "SELECT nome_cand FROM candidato WHERE idCandidato = {$_GET['id']}"); $no = $nome->fetch_assoc(); ?>
+      <?php include "../configs/config.php"; $nome = mysqli_query($conexao1, "SELECT nome_cand FROM candidato WHERE idCandidato = $id"); $no = $nome->fetch_assoc(); ?>
       <p><?=$no['nome_cand'];?></p>
       <h4>E-mail</h4>
-      <p><?=$_GET['email'];?></p>
-      <a href="<?="editar_curriculo.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Editar Curriculo</a><br />
+      <p><?= $_GET['email']; ?></p>
+      <a href="<?="vagas1.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Vagas</a><br />
       <a href="<?="../login/logoff.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" class="link-nav-hamb">Sair</a>
     </div>
   </div><!--content-perfi-->
@@ -132,48 +141,49 @@ if(urlencode($_GET['email']) && urlencode($_GET['senha']) && urlencode($_GET['sm
 
 </header>
 <div class="content-form">
-    <form action="<?="estrutura_curriculo.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" method="post" enctype="multipart/form-data">
-        
+    <form action="<?="editar_curriculo.php?email={$email}&senha={$senha}&sm={$sm}&id={$id}"?>" method="post" enctype="multipart/form-data">
+        <?php include "../configs/config.php"; $oba = mysqli_query($conexao1, "SELECT * FROM curriculo WHERE Candidato_idCandidato = $id"); $bao = $oba->fetch_assoc(); foreach($oba as $ba): ?>
         <h4>Escolaridade</h4>
         <select name="escolaridade" id="">
             <option value="">Escolha</option>
-            <option value="Ensino Fundamental">Regular do Ensino Fundamental</option>
-            <option value="Ensino Medio">Regular do Ensino Médio</option>
-            <option value="EJA Fundamental">EJA do Ensino Fundamental</option>
-            <option value="EJA Medio">EJA do Ensino Médio</option>
-            <option value="Ensino Superior">Ensino superior</option>
-            <option value="Pós Graduação">Pós Graduação</option>
-            <option value="Mestrado">Mestrado</option>
-            <option value="Doutorado">Doutorado</option>
+            <option value="Ensino Fundamental" <?= $ba['escolaridade'] == "Ensino Fundamental" ? "selected" : ""; ?>>Regular do Ensino Fundamental</option>
+            <option value="Ensino Medio" <?= $ba['escolaridade'] == "Ensino Medio" ? "selected" : ""; ?>>Regular do Ensino Médio</option>
+            <option value="EJA Fundamental" <?= $ba['escolaridade'] == "EJA Fundamental" ? "selected" : ""; ?>>EJA do Ensino Fundamental</option>
+            <option value="EJA Medio" <?= $ba['escolaridade'] == "EJA Medio" ? "selected" : ""; ?>>EJA do Ensino Médio</option>
+            <option value="Ensino Superior" <?= $ba['escolaridade'] == "Ensino Superior" ? "selected" : ""; ?>>Ensino superior</option>
+            <option value="Pós Graduação" <?= $ba['escolaridade'] == "Pós Graduação" ? "selected" : ""; ?>>Pós Graduação</option>
+            <option value="Mestrado" <?= $ba['escolaridade'] == "Mestrado" ? "selected" : ""; ?>>Mestrado</option>
+            <option value="Doutorado" <?= $ba['escolaridade'] == "Doutorado" ? "selected" : ""; ?>>Doutorado</option>
         </select>
         
         <h4>Sexo</h4>
-        <input type="radio" name="sexo" value="masculino">Masculino
-        <input type="radio" name="sexo" value="feminino">Feminino
+        <input type="radio" name="sexo" value="masculino" <?= $ba['sexo'] == "masculino" ? "checked" : ""; ?> >Masculino
+        <input type="radio" name="sexo" value="feminino" <?= $ba['sexo'] == "feminino" ? "checked" : ""; ?>>Feminino
 
         <h4>Habilidades Linguísticas</h4>
-        <input type="checkbox" name="lingua[]" value="inglês">Inglês<br>
-        <input type="checkbox" name="lingua[]" value="espanhol">Espanhol<br>
-        <input type="checkbox" name="lingua[]" value="francês">Francês<br>
+        <?php $palavra = "inglês"; $palavra1 = "espanhol"; $palavra2 = "francês"; $frase = $ba['linguas']; ?>
+        <input type="checkbox" name="lingua[]" value="inglês" <?= preg_match("/\b$palavra\b/", $frase) ? "checked" : ""; ?> >Inglês<br>
+        <input type="checkbox" name="lingua[]" value="espanhol" <?= preg_match("/\b$palavra1\b/", $frase) ? "checked" : ""; ?>>Espanhol<br>
+        <input type="checkbox" name="lingua[]" value="francês" <?= preg_match("/\b$palavra2\b/", $frase) ? "checked" : ""; ?>>Francês<br>
 
         <h4>Habilidades Interpessoais</h4>
-        <input type="checkbox" name="interpessoal[]" value="liderança">Liderança<br>
-        <input type="checkbox" name="interpessoal[]" value="confiança">Confiança<br>
-        <input type="checkbox" name="interpessoal[]" value="disposição">Disposição<br>
-        <input type="checkbox" name="interpessoal[]" value="comunicação">Comunicação<br>
-        <input type="checkbox" name="interpessoal[]" value="criatividade">Criatividade<br>
-        <input type="checkbox" name="interpessoal[]" value="proatividade">Proatividade<br>
-        <input type="checkbox" name="interpessoal[]" value="trabalho em equipe">Trabalho em equipe<br>
+        <?php $int = "liderança"; $int2 = "confiança"; $int3 = "disposição"; $int4 = "comunicação"; $int5 = "criatividade"; $int6 = "proatividade"; $int7 = "trabalho em equipe"; $phrase = $ba['interpessoais']; ?>
+        <input type="checkbox" name="interpessoal[]" value="liderança" <?= preg_match("/\b$int\b/", $phrase) ? "checked" : "" ?> >Liderança<br>
+        <input type="checkbox" name="interpessoal[]" value="confiança" <?= preg_match("/\b$int2\b/", $phrase) ? "checked" : "" ?>>Confiança<br>
+        <input type="checkbox" name="interpessoal[]" value="disposição" <?= preg_match("/\b$int3\b/", $phrase) ? "checked" : "" ?>>Disposição<br>
+        <input type="checkbox" name="interpessoal[]" value="comunicação" <?= preg_match("/\b$int4\b/", $phrase) ? "checked" : "" ?>>Comunicação<br>
+        <input type="checkbox" name="interpessoal[]" value="criatividade" <?= preg_match("/\b$int5\b/", $phrase) ? "checked" : "" ?>>Criatividade<br>
+        <input type="checkbox" name="interpessoal[]" value="proatividade" <?= preg_match("/\b$int6\b/", $phrase) ? "checked" : "" ?>>Proatividade<br>
+        <input type="checkbox" name="interpessoal[]" value="trabalho em equipe" <?= preg_match("/\b$int7\b/", $phrase) ? "checked" : "" ?>>Trabalho em equipe<br>
 
         <h4>Descrição</h4>
-        <textarea name="descricao" id="" cols="30" rows="10"></textarea>
+        <textarea name="descricao" id="" cols="30" rows="10"><?= $ba['descricao']; ?></textarea>
         <h4>Portifólio</h4>
         <input name="arquivo" type="file"><br>
-
+        <?php endforeach; ?>
         <div class="content-submit">
-            <button name="Enviar" type="submit">Criar Currículo</button>
+            <button type="submit">Editar Curriculo</button>
         </div>
-
     </form>
 </div><!--content-form-->
 <footer class="rodape">

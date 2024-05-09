@@ -20,7 +20,14 @@ if(isset($_POST["nome"]) && isset($_POST["cnpj"]) && isset($_POST["email"]) && i
     $resultado1->bind_param('ssssi', $empresa->nome, $empresa->cnpj, $empresa->email, $empresa->senha, $tipo_emp);
     $resultado1->execute();
     $id = mysqli_query($conexao1, "UPDATE empresas SET Administrador_idUsuarios = (SELECT idUsuarios FROM administrador WHERE idUsuarios = 1)");
+    if($resultado1){
+        echo "<script>alert('cadastrado com sucesso!')</script>";
+        header('Location: ../login/login.php'); 
+    }
+    else{
+        echo "<script>alert('erro ao cadastrar')</script>";
+        header('Location: cadastro_empresa.php'); 
+    }
     $resultado1->close();
     $conexao1->close();
-    header('Location: cadastrado.php');
 }
