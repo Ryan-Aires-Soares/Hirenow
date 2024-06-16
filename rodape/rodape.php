@@ -26,7 +26,7 @@
         <div class="div2">
             <ul class="ul-rod" type="none">
             <h2>Links</h2>
-                <li>
+                <li style="list-style: none;">
                     <a href="#" class="ancor">Home</a><br>
                     <a href="#" class="ancor">Preços</a><br>
                     <a href="#" class="ancor">Baixar</a><br>
@@ -37,7 +37,7 @@
         <div class="div3">
             <ul class="ul-rod"  type="none">
                 <h2>Suporte</h2>
-                <li>
+                <li style="list-style: none;">
                     <a href="#" class="ancor">FAQ</a><br>
                     <a href="#" class="ancor">Como Funciona</a><br>
                     <a href="#" class="ancor">Características</a>
@@ -47,9 +47,9 @@
         <div class="div4">
             <ul class="ul-rod"  type="none">
                 <h2>Contato</h2>
-                <li>
-                    <a href="#" class="ancor">+55 98664-2599</a><br>
-                    <a href="#" class="ancor">airesryan88@gmail.com</a><br>
+                <li style="list-style: none;">
+                    <a href="#" class="ancor">+55 91234-5678</a><br>
+                    <a href="#" class="ancor">admin@gmail.com</a><br>
                     <a href="#" class="ancor">Brasil</a>
                 </li>
             </ul>

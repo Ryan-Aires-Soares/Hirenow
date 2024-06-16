@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
-    <link rel="shortcut icon" href="../Imagens/logos/favicon/hirenow_favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../Imagens/logos/favicon/hirenow_favicon.ico" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Login</title>
@@ -40,7 +40,7 @@
                 <span class="icon"><i class='bx bx-lock' style='color:#ffffff'></i></span>
             </div>
             <span id="senha">
-                <a href="#" id="recuperar-senha">Esqueceu a senha?</a>
+                <a href="recuperar.php" id="recuperar-senha">Esqueceu a senha?</a>
             </span>
 
             <!-- Recaptcha -->
@@ -76,7 +76,7 @@
 </html>
 <?php
 session_start();
-include "../configs/configlogin.php";
+include "../../configs/configlogin.php";
 if(isset($_POST["email"]) && isset($_POST["password"])){
     class login{
         public $email;
@@ -89,48 +89,67 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
             return "{$this->email} - {$this->senha}";
         }
     }
-$login = new login($_POST["email"], $_POST["password"]);
-    include "../configs/configlogin.php";
-    $sql_empresa = "SELECT idEmpresas, email, senha, tipo FROM empresas WHERE email = '$login->email' AND senha = '$login->senha'";
-    $resultado_empresa = $conexaoempresa->query($sql_empresa);
-
-    $sql_admin = "SELECT idUsuarios, email, senha, tipo FROM administrador WHERE email = '$login->email' AND senha = '$login->senha'";
-    $resultado_admin = $conexaoadm->query($sql_admin);
-    
-    $sql_candidato = "SELECT idCandidato, email_cand, senha_cand, tipo FROM candidato WHERE email_cand = '$login->email' AND senha_cand = '$login->senha'";
-    $resultado_candidato = $conexaocandidato->query($sql_candidato);
-
-    $linha = $resultado_candidato->fetch_assoc();
-    $linha1 = $resultado_empresa->fetch_assoc();
-    $linha2 = $resultado_admin->fetch_assoc();
-    
-    if(mysqli_num_rows($resultado_empresa) == 1){
-        $linha1['email'] != null ? $_SESSION['email1'] = urlencode($linha1['email']) : null;
-        $linha1['senha'] != null ? $_SESSION['senha1'] = urlencode($linha1['senha']) : null;
-        $linha1['tipo'] != null ? $_SESSION['sm1'] = urlencode($linha1['tipo']) : null;
-        $linha1['idEmpresas'] != null ? $_SESSION['id1'] = urlencode($linha1['idEmpresas']): null;
-        header("location: ../Emp/vagas.php?email={$_SESSION['email1']}&senha={$_SESSION['senha1']}&sm={$_SESSION['sm1']}&id={$_SESSION['id1']}");
-    }
-    elseif(mysqli_num_rows($resultado_candidato) == 1){
-        $linha['email_cand'] != null ? $_SESSION['email'] = urlencode($linha['email_cand']) : null;
-        $linha['senha_cand'] != null ? $_SESSION['senha'] = urlencode($linha['senha_cand']) : null;
-        $linha['tipo'] != null ? $_SESSION['sm'] = urlencode($linha['tipo']) : null;
-        $linha['idCandidato'] != null ? $_SESSION['id'] = urlencode($linha['idCandidato']) : null;
-        include "../configs/config.php";
-        $direcao = mysqli_query($conexao1, "SELECT * FROM curriculo WHERE Candidato_idCandidato = {$_SESSION['id']}");
-        if(mysqli_num_rows($direcao) == 1){
-            header("location: ../Cand/editar_curriculo.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}");
+$login = new login($_POST["email"], md5($_POST["password"]));
+    include "../../configs/configlogin.php";
+    $sql_user = $conexaoempresa->query("SELECT * FROM hirenow.usuarios WHERE email = '$login->email' AND senha = '$login->senha'");
+    $linhas = $sql_user->fetch(PDO::FETCH_ASSOC);
+    if($sql_user->rowCount() == 1){
+        if($linhas['tipo'] == 3){
+            $linhas['nome'] != null ? $_SESSION['nome'] = urlencode($linhas['nome']) : null;
+            $linhas['email'] != null ? $_SESSION['email'] = urlencode($linhas['email']) : null;
+            $linhas['senha'] != null ? $_SESSION['senha'] = urlencode($linhas['senha']) : null;
+            $linhas['tipo'] != null ? $_SESSION['sm'] = urlencode($linhas['tipo']) : null;
+            $linhas['idUsuarios'] != null ? $_SESSION['id'] = urlencode($linhas['idUsuarios']): null;
+            include "../../configs/config.php";
+            $perfil = $conexao1->prepare("SELECT * FROM hirenow.perfil_empresa WHERE id_empresa = :id");
+            $perfil->bindParam(":id", $_SESSION['id'], PDO::PARAM_INT);
+            $perfil->execute();
+            if($perfil->rowCount() == 1){
+            if($linhas['status_user'] == 1){
+                header("location: reativar.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+            }
+            elseif($linhas['status_user'] == 0){
+                header("location: ../../Sistema/Emp/vagas.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+            }
+            elseif($linhas['status_user'] == 2){
+                header('location: notfound.php');
+            }
         }
-        elseif(mysqli_num_rows($direcao) < 1){
-            header("location: ../Cand/estrutura_curriculo.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}");
+            elseif($perfil->rowCount() < 1){
+                header("location: ../../Sistema/Emp/perfil_emp.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+            }
         }
-    }
-    elseif(mysqli_num_rows($resultado_admin) == 1){
-        $linha2['email'] != null ? $_SESSION['email2'] = urlencode($linha2['email']) : null;
-        $linha2['senha'] != null ? $_SESSION['senha2'] = urlencode($linha2['senha']) : null;
-        $linha2['tipo'] != null ? $_SESSION['sm2'] = urlencode($linha2['tipo']) : null;
-        $linha2['idUsuarios'] != null ? $_SESSION['id2'] = urlencode($linha2['idUsuarios']): null;
-        header("location: ../Adm/vagas_adm.php?email={$_SESSION['email2']}&senha={$_SESSION['senha2']}&sm={$_SESSION['sm2']}&id={$_SESSION['id2']}");
+        elseif($linhas['tipo'] == 2){
+            $linhas['nome'] != null ? $_SESSION['nome'] = urlencode($linhas['nome']) : null;
+            $linhas['email'] != null ? $_SESSION['email'] = urlencode($linhas['email']) : null;
+            $linhas['senha'] != null ? $_SESSION['senha'] = urlencode($linhas['senha']) : null;
+            $linhas['tipo'] != null ? $_SESSION['sm'] = urlencode($linhas['tipo']) : null;
+            $linhas['idUsuarios'] != null ? $_SESSION['id'] = urlencode($linhas['idUsuarios']) : null;
+            include "../../configs/config.php";
+            $direcao = $conexao1->query("SELECT * FROM hirenow.curriculo WHERE id_candidato = {$_SESSION['id']}");
+            if($direcao->rowCount() == 1){
+                if($linhas['status_user'] == 1){
+                    header("location: reativar1.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+                }
+                elseif($linhas['status_user'] == 0){
+                    header("location: ../../Sistema/Cand/vagas1.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+                }
+                elseif($linhas['status_user'] == 2){
+                    header('location: notfound.php');
+                }
+            }
+            elseif($direcao->rowCount() < 1){
+                header("location: ../../Sistema/Cand/estrutura_curriculo.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+            }
+        }
+        elseif($linhas['tipo'] == 1){
+            $linhas['nome'] != null ? $_SESSION['nome'] = urlencode($linhas['nome']) : null;
+            $linhas['email'] != null ? $_SESSION['email'] = urlencode($linhas['email']) : null;
+            $linhas['senha'] != null ? $_SESSION['senha'] = urlencode($linhas['senha']) : null;
+            $linhas['tipo'] != null ? $_SESSION['sm'] = urlencode($linhas['tipo']) : null;
+            $linhas['idUsuarios'] != null ? $_SESSION['id'] = urlencode($linhas['idUsuarios']): null;
+            header("location: ../../Sistema/Adm/vagas_adm.php?email={$_SESSION['email']}&senha={$_SESSION['senha']}&sm={$_SESSION['sm']}&id={$_SESSION['id']}&nome={$_SESSION['nome']}");
+        }
     }
     else{
         session_destroy();

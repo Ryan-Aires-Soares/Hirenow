@@ -1,0 +1,48 @@
+form.filtro_vagas{
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: 8px;
+    margin: 5vh 0 0 0;
+    border-radius: 5px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+.input-filtro{
+    flex-direction: row;
+}
+
+input[type="number"]{
+    display: inline-block;
+    margin-top: 3px;
+    text-indent: 5px;
+    padding: 1px 0;
+}
+
+input[type="radio"]{
+    margin-left: 0;
+    margin-right: 3px;
+}
+
+label{
+    margin: 10px 0 5px;
+}
+
+.btn-filtro{
+    width: 80%;
+    margin: 10px 10% 0;
+    padding: 5px 0;
+    border-radius: 5px;
+    border: 2px solid #fff;
+    text-transform: uppercase;
+    background-color: #459A96;
+    color: #fff;
+    transition: 0.5s;
+}
+
+.btn-filtro:hover{
+    background-color: #fff;
+    border: 2px solid black;
+    color: black;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}

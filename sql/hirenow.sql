@@ -1,252 +1,406 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: hirenow
--- ------------------------------------------------------
--- Server version	5.5.5-10.4.24-MariaDB
+-- Host: 127.0.0.1
+-- Tempo de geração: 12-Jun-2024 às 13:53
+-- Versão do servidor: 10.4.24-MariaDB
+-- versão do PHP: 8.1.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `administrador`
+-- Banco de dados: `hirenow`
 --
 
-DROP TABLE IF EXISTS `administrador`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `administrador` (
-  `idUsuarios` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `email` varchar(60) CHARACTER SET utf8 NOT NULL,
-  `senha` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tipo` int(1) NOT NULL,
-  PRIMARY KEY (`idUsuarios`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `administrador`
+-- Estrutura da tabela `arquivos_curriculo`
 --
 
-LOCK TABLES `administrador` WRITE;
-/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
-INSERT INTO `administrador` VALUES (1,'Ryan Aires Soares','admin@gmail.com','123asd!*',1);
-/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE `arquivos_curriculo` (
+  `id_curriculo` int(11) NOT NULL,
+  `arquivos_curriculo` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Table structure for table `candidato`
+-- Extraindo dados da tabela `arquivos_curriculo`
 --
 
-DROP TABLE IF EXISTS `candidato`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `candidato` (
-  `idCandidato` int(11) NOT NULL AUTO_INCREMENT,
-  `nome_cand` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `data_nasc` date NOT NULL,
-  `email_cand` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `senha_cand` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `Administrador_idUsuarios` int(11) DEFAULT NULL,
-  `tipo` int(1) NOT NULL,
-  PRIMARY KEY (`idCandidato`),
-  KEY `fk_Candidato_Administrador1_idx` (`Administrador_idUsuarios`),
-  CONSTRAINT `fk_adm` FOREIGN KEY (`Administrador_idUsuarios`) REFERENCES `administrador` (`idUsuarios`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `arquivos_curriculo` (`id_curriculo`, `arquivos_curriculo`) VALUES
+(2, 'C:\\xampp\\htdocs\\Hirenow\\Sistema\\Cand/armazenamento/Xeap2z/Portfolio.pdf'),
+(3, 'C:\\xampp\\htdocs\\Hirenow\\Sistema\\Cand/armazenamento/FWTgxk/Portfolio.pdf'),
+(4, 'C:\\xampp\\htdocs\\Hirenow\\Sistema\\Cand/armazenamento/au10C5/Portfolio.pdf'),
+(7, 'C:\\xampp\\htdocs\\Hirenow\\Sistema\\Cand/armazenamento/phNZDd/Portfolio.png');
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `candidato`
+-- Estrutura da tabela `candidatos`
 --
 
-LOCK TABLES `candidato` WRITE;
-/*!40000 ALTER TABLE `candidato` DISABLE KEYS */;
-INSERT INTO `candidato` VALUES (1,'Tiago','2001-03-02','tiagou@gmail.com','$@DWSEFAs',1,2),(6,'Homer Simpson','2001-03-02','homer@gmail.com','1kfah72nbds',1,2),(7,'Marcos Vinícius','2001-03-02','mv@gmail.com','fes#$Rwsda!@',1,2),(8,'ryan','2006-03-05','ryan88@gmail.com','123#$@#D',1,2),(9,'Gregóri','2001-03-02','gregoridesbravador@gmail.com','123!@#123',1,2),(11,'Marcos','2001-01-02','marcos@gmail.com','123456789',1,2),(12,'Ricardo','1999-02-01','ric@gmail.com','@#$SDFWEas1',1,2),(13,'Julius Caeser','1500-02-01','julius@gmail.com','@%#aED16#',1,2),(16,'Eric Ferreira','2001-01-02','eric@gmail.com','!%&afeW32CX',1,2),(17,'Guilherme','2001-03-02','gui01@gmail.com','@¨FTVCX12',1,2);
-/*!40000 ALTER TABLE `candidato` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE `candidatos` (
+  `id_usuario_candidato` int(11) NOT NULL,
+  `data_nasc` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Table structure for table `chat`
+-- Extraindo dados da tabela `candidatos`
 --
 
-DROP TABLE IF EXISTS `chat`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat` (
-  `idChat` int(11) NOT NULL AUTO_INCREMENT,
-  `mensagem` varchar(300) CHARACTER SET utf8 NOT NULL,
-  `data_msg` date NOT NULL,
-  `id_candidato` int(11) DEFAULT NULL,
-  `id_empresa` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idChat`),
-  KEY `candidato_idx` (`id_candidato`),
-  KEY `empresa_idx` (`id_empresa`),
-  CONSTRAINT `candidato` FOREIGN KEY (`id_candidato`) REFERENCES `candidato` (`idCandidato`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`idEmpresas`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO `candidatos` (`id_usuario_candidato`, `data_nasc`) VALUES
+(5, '2002-02-02'),
+(8, '2004-08-10'),
+(15, '2001-03-02'),
+(22, '2000-04-10');
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `chat`
+-- Estrutura da tabela `curriculo`
 --
 
-LOCK TABLES `chat` WRITE;
-/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `curriculo`
---
-
-DROP TABLE IF EXISTS `curriculo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `curriculo` (
-  `idCurriculo` int(11) NOT NULL AUTO_INCREMENT,
-  `escolaridade` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `sexo` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `linguas` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `interpessoais` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` varchar(300) CHARACTER SET utf8 NOT NULL,
-  `portifolio` varchar(90) CHARACTER SET utf8 DEFAULT NULL,
-  `Candidato_idCandidato` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idCurriculo`),
-  UNIQUE KEY `Candidato_idCandidato_UNIQUE` (`Candidato_idCandidato`),
-  KEY `fk_Currículo_Candidato1_idx` (`Candidato_idCandidato`),
-  CONSTRAINT `fk_Currículo_Candidato1` FOREIGN KEY (`Candidato_idCandidato`) REFERENCES `candidato` (`idCandidato`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idCurriculo` int(11) NOT NULL,
+  `id_candidato` int(11) NOT NULL,
+  `escolaridade` varchar(45) NOT NULL,
+  `sexo` varchar(15) NOT NULL,
+  `linguas_estrangeiras` varchar(45) DEFAULT NULL,
+  `habilidades_interpessoais` longtext DEFAULT NULL,
+  `descricao` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `curriculo`
+-- Extraindo dados da tabela `curriculo`
 --
 
-LOCK TABLES `curriculo` WRITE;
-/*!40000 ALTER TABLE `curriculo` DISABLE KEYS */;
-INSERT INTO `curriculo` VALUES (5,'Ensino Superior','feminino','francês','disposição','Bom dia','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/oi.docx',7),(7,'Ensino Medio','masculino','inglês - espanhol','liderança - confiança - proatividade','sims','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/03.docx',6),(8,'Pós Graduação','masculino','inglês - espanhol - francês','confiança - comunicação - proatividade','jaskdlaskda','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/04.docx',8),(9,'Ensino Superior','masculino','inglês - espanhol','liderança - comunicação - trabalho em equipe','Cursando Enfermagem.','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/basico.docx',9),(10,'Ensino Superior','masculino','inglês - espanhol - francês','liderança - disposição - criatividade','Oi, bom dia','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/oi.docx',11),(11,'Ensino Fundamental','feminino','espanhol - francês','liderança','sim','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/ER3.docx',12),(12,'Ensino Superior','masculino','inglês - francês','liderança - comunicação - criatividade','Lider Romano.','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/ER2.docx',13),(13,'Ensino Superior','masculino','inglês - espanhol - francês','liderança - confiança - disposição - proatividade','asdas','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/Trabalho_final.docx',NULL),(17,'Mestrado','masculino','inglês','comunicação - criatividade','freeese','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/Gabinetes.pdf',NULL),(18,'Doutorado','masculino','inglês - francês','comunicação - criatividade - proatividade','Eric','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/Trabalho_final.docx',16),(19,'Ensino Fundamental','masculino','inglês - espanhol','comunicação - criatividade','awdsawds','C:\\xampp\\htdocs\\PCC - Rascunho2\\login_cadastro\\Cand/armazenamento/Slide_Aula.pdf',17);
-/*!40000 ALTER TABLE `curriculo` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `curriculo` (`idCurriculo`, `id_candidato`, `escolaridade`, `sexo`, `linguas_estrangeiras`, `habilidades_interpessoais`, `descricao`) VALUES
+(2, 5, 'Ensino Superior', 'masculino', 'inglês', 'liderança - confiança - disposição', 'oi, bom dia'),
+(3, 8, 'Ensino Superior', 'masculino', 'inglês - espanhol', 'confiança - comunicação', 'Bom dia'),
+(4, 15, 'Pós Graduação', 'masculino', 'inglês - espanhol', 'liderança', 'Matheus'),
+(7, 22, 'Ensino Superior', 'masculino', 'francês', 'comunicação - criatividade', 'Ryan :)');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `empresas`
+-- Estrutura da tabela `empresas`
 --
 
-DROP TABLE IF EXISTS `empresas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `empresas` (
-  `idEmpresas` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `cnpj` int(11) NOT NULL,
-  `email` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `senha` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Administrador_idUsuarios` int(11) DEFAULT NULL,
-  `tipo` int(1) NOT NULL,
-  `area` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `descricao` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`idEmpresas`),
-  UNIQUE KEY `cnpj_UNIQUE` (`cnpj`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
-  KEY `fk_Empresas_Administrador1_idx` (`Administrador_idUsuarios`),
-  CONSTRAINT `fk_adm1` FOREIGN KEY (`Administrador_idUsuarios`) REFERENCES `administrador` (`idUsuarios`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `id_usuarios_empresa` int(11) NOT NULL,
+  `cnpj` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `empresas`
+-- Extraindo dados da tabela `empresas`
 --
 
-LOCK TABLES `empresas` WRITE;
-/*!40000 ALTER TABLE `empresas` DISABLE KEYS */;
-INSERT INTO `empresas` VALUES (11,'Blob',623745234,'blob@gmail.com','26#$FDasc12',1,3,NULL,NULL),(13,'Giggle',291923381,'giggle@gmail.com','#$ASDW##$%SDF',1,3,'Engenharia','asdasd'),(16,'flex',254415324,'flex@gmail.com','234@#DS17',1,3,NULL,NULL);
-/*!40000 ALTER TABLE `empresas` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `empresas` (`id_usuarios_empresa`, `cnpj`) VALUES
+(14, 151243643),
+(16, 242321756),
+(23, 252345343),
+(18, 1512324234);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `interessados`
+-- Estrutura da tabela `interessados`
 --
 
-DROP TABLE IF EXISTS `interessados`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `interessados` (
-  `idInteressados` int(11) NOT NULL AUTO_INCREMENT,
-  `id_vaga` int(11) DEFAULT NULL,
-  `curriculo_candidato` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idInteressados`),
-  KEY `vaga_01_idx` (`id_vaga`),
-  KEY `currículo_interessados_idx` (`curriculo_candidato`),
-  CONSTRAINT `currículo_interessados` FOREIGN KEY (`curriculo_candidato`) REFERENCES `curriculo` (`idCurriculo`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `vaga_01` FOREIGN KEY (`id_vaga`) REFERENCES `vagas` (`idVagas`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `idInteressados` int(11) NOT NULL,
+  `id_vaga` int(11) NOT NULL,
+  `id_candidato` int(11) NOT NULL,
+  `curriculo_candidato` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `interessados`
+-- Extraindo dados da tabela `interessados`
 --
 
-LOCK TABLES `interessados` WRITE;
-/*!40000 ALTER TABLE `interessados` DISABLE KEYS */;
-INSERT INTO `interessados` VALUES (9,10,5),(10,14,5),(11,10,7),(12,13,7),(13,10,8),(14,13,8),(15,NULL,9),(19,NULL,8),(21,33,9),(22,28,9),(23,34,9),(27,10,10),(28,10,17),(29,13,18),(30,10,19),(31,34,19);
-/*!40000 ALTER TABLE `interessados` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `interessados` (`idInteressados`, `id_vaga`, `id_candidato`, `curriculo_candidato`) VALUES
+(19, 12, 15, 4),
+(26, 12, 5, 2),
+(27, 27, 5, 2),
+(28, 25, 5, 2),
+(34, 33, 22, 7),
+(35, 33, 15, 4),
+(39, 27, 22, 7),
+(41, 12, 22, 7);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `vagas`
+-- Estrutura da tabela `mensagem`
 --
 
-DROP TABLE IF EXISTS `vagas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mensagem` (
+  `idchat` int(11) NOT NULL,
+  `mensagem` varchar(300) NOT NULL,
+  `data_msg` varchar(60) NOT NULL,
+  `destinatario` int(11) NOT NULL,
+  `destino` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `mensagem`
+--
+
+INSERT INTO `mensagem` (`idchat`, `mensagem`, `data_msg`, `destinatario`, `destino`) VALUES
+(1, '<b>MSG:</b> bom dia.; <br><br>', '06/06/2024 - 08h:12m\0', 16, 22),
+(2, '<b>MSG:</b> bom dia empresa.; <br><br><b>MSG:</b> asdsadasd; <br><br>', '06/06/2024 - 08h:50m\0', 22, 16),
+(4, '<b>MSG:</b> bom dia Ryan.; <br><br><b>MSG:</b> g morning tho; <br><br>', '06/06/2024 - 08h:52m\0', 14, 22),
+(5, '<b>MSG:</b> opa; <br><br>', '06/06/2024 - 08h:51m\0', 22, 14);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `perfil_empresa`
+--
+
+CREATE TABLE `perfil_empresa` (
+  `id_empresa` int(11) NOT NULL,
+  `area` varchar(45) NOT NULL,
+  `descricao` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `perfil_empresa`
+--
+
+INSERT INTO `perfil_empresa` (`id_empresa`, `area`, `descricao`) VALUES
+(14, 'Marketing', 'Empresa de Marketing.'),
+(16, 'Marketing', 'Mkt'),
+(18, 'Finanças', 'awds'),
+(23, 'Finanças', 'Giovanatto');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `idUsuarios` int(11) NOT NULL,
+  `nome` varchar(45) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `senha` varchar(45) NOT NULL,
+  `tipo` int(1) DEFAULT NULL COMMENT 'Lenda:\n1 = Candidatos;\n2 = Administradores;\n3 = Empresas.\n',
+  `status_user` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`idUsuarios`, `nome`, `email`, `senha`, `tipo`, `status_user`) VALUES
+(1, 'Administrador', 'admin@gmail.com', '986326dd3304822215147361252574c3', 1, 0),
+(5, 'Rodrigo', 'r@gmail.com', '986326dd3304822215147361252574c3', 2, 0),
+(8, 'Bryan', 'bryan@gmail.com', '986326dd3304822215147361252574c3', 2, 0),
+(14, 'whiss', 'whiss@gmail.com', '986326dd3304822215147361252574c3', 3, 0),
+(15, 'Matheus', 'matheus01@gmail.com', '986326dd3304822215147361252574c3', 2, 0),
+(16, 'Deed', 'deed@gmail.com', '986326dd3304822215147361252574c3', 3, 0),
+(18, 'Treet', 'treet@gmail.com', '986326dd3304822215147361252574c3', 3, 0),
+(22, 'Ryan Aires', 'airesryan88@gmail.com', '986326dd3304822215147361252574c3', 2, 0),
+(23, 'Leicht', 'leicht@gmail.com', '986326dd3304822215147361252574c3', 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vagas`
+--
+
 CREATE TABLE `vagas` (
-  `idVagas` int(11) NOT NULL AUTO_INCREMENT,
-  `area` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `titulo` varchar(80) CHARACTER SET utf8 NOT NULL,
-  `tipo_vaga` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` varchar(300) CHARACTER SET utf8 NOT NULL,
-  `requisitos` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `requisitos2` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `requisitos3` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `requisitos4` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `requisitos5` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pagamento` decimal(8,2) NOT NULL,
+  `idVagas` int(11) NOT NULL,
   `id_empresa` int(11) DEFAULT NULL,
-  `id_adm` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idVagas`),
-  KEY `id_empresa_idx` (`id_empresa`),
-  KEY `fk_adm2_idx` (`id_adm`),
-  CONSTRAINT `fk_adm2` FOREIGN KEY (`id_adm`) REFERENCES `administrador` (`idUsuarios`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`idEmpresas`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `titulo` varchar(100) NOT NULL,
+  `area` varchar(50) NOT NULL,
+  `tipo` varchar(20) NOT NULL COMMENT '1 - Onlide\\n2 - Presencial',
+  `requisitos` varchar(255) NOT NULL,
+  `descricao` longtext NOT NULL,
+  `pagamento` decimal(8,2) NOT NULL,
+  `status_vaga` int(1) NOT NULL,
+  `denuncia_vaga` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `vagas`
+-- Extraindo dados da tabela `vagas`
 --
 
-LOCK TABLES `vagas` WRITE;
-/*!40000 ALTER TABLE `vagas` DISABLE KEYS */;
-INSERT INTO `vagas` VALUES (10,'Administração','Administração','online',' Administração     ','Formado em Administração','Experiência na área','Raciocínio Lógico','Projetos Feitos','Certificações',3000.00,11,1),(13,'Administração','Administração','online','     Pacote Office     ','Superior em Administração','Experiência na área','Raciocínio Lógico','Projetos Feitos','Certificações',4000.99,13,1),(14,'Administração','Administração','online',' Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi vel cupiditate, excepturi eligendi aliquid amet molestias maxime culpa dolores voluptas adipisci dolorem fuga. Qui labore fugiat incidunt sequi dolorum sunt.Lorem, ipsum dolor sit amet consectetur adipisicing elit.','Superior em Administração','Experiência na área','Raciocínio Lógico','Projetos Feitos','Certificações',2000.00,13,1),(24,'Administração','asdasda','presencial',' asdasdasd ','asdasdasd','Experiência na área','Raciocínio Lógico','Projetos Feitos','Certificações',1000.00,11,1),(28,'Administração','Adm','presencial','wasdwe','as','asd','asdf','asdfg','asdfgh',1000.00,11,1),(33,'Tecnologia (TI)','TI','online','TI','TI','TI','TI','TI','TI',3000.00,11,1),(34,'Saúde','Enfermagem','presencial',' Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi vel cupiditate, excepturi eligendi aliquid amet molestias maxime culpa dolores voluptas adipisci dolorem fuga. Qui labore fugiat incidunt sequi dolorum sunt.Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi vel cupiditate','Superior em Enfermagem','teste','enfermagem','sim','bom dia',1000.00,13,1),(35,'Administração','Administração','online',' Superior em Administração ','ADM','MDA','DAM','DMA','AMD',5000.00,16,1);
-/*!40000 ALTER TABLE `vagas` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `vagas` (`idVagas`, `id_empresa`, `titulo`, `area`, `tipo`, `requisitos`, `descricao`, `pagamento`, `status_vaga`, `denuncia_vaga`) VALUES
+(12, 16, 'Gerenciamento de folhas de pagamentos.', 'Finanças', 'presencial', 'Graduação em Administração ou economia;', 'Salário: R$4000;\r\nVA e VT: R$250;', '4000.00', 0, '0'),
+(25, 18, 'Social media', 'Marketing', 'online', 'Graduação em Marketing; Boa comunicação;', 'Salário e vales compatíveis com o mercado.', '6000.00', 0, '0'),
+(27, 14, 'Estágio em engenharia civil', 'Engenharia', 'presencial', 'Cursando engenharia civil a partir do 2° semestre.', '   Bolsa-Auxílio: R$1000;\r\nVale-Transporte: R$200;   ', '1000.00', 0, '0'),
+(33, 23, 'Criação de petições.', 'Direito', 'presencial', 'Superior em Direito; Aprovado na OAB;', 'Salário compatível com o mercado.', '5000.00', 0, '0');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices para tabela `arquivos_curriculo`
+--
+ALTER TABLE `arquivos_curriculo`
+  ADD PRIMARY KEY (`id_curriculo`);
+
+--
+-- Índices para tabela `candidatos`
+--
+ALTER TABLE `candidatos`
+  ADD PRIMARY KEY (`id_usuario_candidato`),
+  ADD KEY `fk_Candidato_Usuarios1_idx` (`id_usuario_candidato`);
+
+--
+-- Índices para tabela `curriculo`
+--
+ALTER TABLE `curriculo`
+  ADD PRIMARY KEY (`idCurriculo`),
+  ADD UNIQUE KEY `id_candidato_UNIQUE` (`id_candidato`);
+
+--
+-- Índices para tabela `empresas`
+--
+ALTER TABLE `empresas`
+  ADD PRIMARY KEY (`id_usuarios_empresa`),
+  ADD UNIQUE KEY `cnpj_UNIQUE` (`cnpj`),
+  ADD KEY `fk_Empresas_Usuarios1_idx` (`id_usuarios_empresa`);
+
+--
+-- Índices para tabela `interessados`
+--
+ALTER TABLE `interessados`
+  ADD PRIMARY KEY (`idInteressados`),
+  ADD KEY `vaga_01_idx` (`id_vaga`),
+  ADD KEY `currículo_interessados_idx` (`curriculo_candidato`),
+  ADD KEY `proposta_candidato_idx` (`id_candidato`);
+
+--
+-- Índices para tabela `mensagem`
+--
+ALTER TABLE `mensagem`
+  ADD PRIMARY KEY (`idchat`),
+  ADD KEY `destino_msg_idx` (`destino`),
+  ADD KEY `destinatario_idx` (`destinatario`);
+
+--
+-- Índices para tabela `perfil_empresa`
+--
+ALTER TABLE `perfil_empresa`
+  ADD PRIMARY KEY (`id_empresa`);
+
+--
+-- Índices para tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`idUsuarios`),
+  ADD UNIQUE KEY `email_UNIQUE` (`email`);
+
+--
+-- Índices para tabela `vagas`
+--
+ALTER TABLE `vagas`
+  ADD PRIMARY KEY (`idVagas`),
+  ADD KEY `id_empresa_idx` (`id_empresa`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `curriculo`
+--
+ALTER TABLE `curriculo`
+  MODIFY `idCurriculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de tabela `interessados`
+--
+ALTER TABLE `interessados`
+  MODIFY `idInteressados` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT de tabela `mensagem`
+--
+ALTER TABLE `mensagem`
+  MODIFY `idchat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de tabela `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT de tabela `vagas`
+--
+ALTER TABLE `vagas`
+  MODIFY `idVagas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `arquivos_curriculo`
+--
+ALTER TABLE `arquivos_curriculo`
+  ADD CONSTRAINT `id_do_curriculo` FOREIGN KEY (`id_curriculo`) REFERENCES `curriculo` (`idCurriculo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `candidatos`
+--
+ALTER TABLE `candidatos`
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`id_usuario_candidato`) REFERENCES `usuarios` (`idUsuarios`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `curriculo`
+--
+ALTER TABLE `curriculo`
+  ADD CONSTRAINT `id_candidato` FOREIGN KEY (`id_candidato`) REFERENCES `candidatos` (`id_usuario_candidato`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `empresas`
+--
+ALTER TABLE `empresas`
+  ADD CONSTRAINT `fk_Empresas_Usuarios1` FOREIGN KEY (`id_usuarios_empresa`) REFERENCES `usuarios` (`idUsuarios`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `interessados`
+--
+ALTER TABLE `interessados`
+  ADD CONSTRAINT `currículo_interessados` FOREIGN KEY (`curriculo_candidato`) REFERENCES `curriculo` (`idCurriculo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proposta_candidato` FOREIGN KEY (`id_candidato`) REFERENCES `candidatos` (`id_usuario_candidato`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vaga_01` FOREIGN KEY (`id_vaga`) REFERENCES `vagas` (`idVagas`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `mensagem`
+--
+ALTER TABLE `mensagem`
+  ADD CONSTRAINT `destinatario` FOREIGN KEY (`destinatario`) REFERENCES `usuarios` (`idUsuarios`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `destino_msg` FOREIGN KEY (`destino`) REFERENCES `usuarios` (`idUsuarios`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `perfil_empresa`
+--
+ALTER TABLE `perfil_empresa`
+  ADD CONSTRAINT `id_perfil_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_usuarios_empresa`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `vagas`
+--
+ALTER TABLE `vagas`
+  ADD CONSTRAINT `id_empresa` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id_usuarios_empresa`) ON DELETE SET NULL ON UPDATE CASCADE;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-05-09 18:38:23

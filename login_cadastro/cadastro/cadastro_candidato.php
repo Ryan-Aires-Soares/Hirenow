@@ -96,7 +96,7 @@
             </div> 
         </form>
         
-        <a href="login.php" id="cadastro">Já tem uma Conta?</a>      
+        <a href="../login/login.php" id="cadastro">Já tem uma Conta?</a>      
     </div>
 
     <figure id="fundo-login">

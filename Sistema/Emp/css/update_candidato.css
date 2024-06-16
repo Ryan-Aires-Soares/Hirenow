@@ -1,0 +1,243 @@
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.content-candidato{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.candidato{
+    width: 80%;
+    border: 2px solid black;
+    margin-top: 5vh;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.topo-candidato{
+    display: flex;
+}
+
+h4{
+    font-size: 1.3em;
+}
+
+p{
+    font-size: 1.2em;
+}
+
+.content-btn-contratar{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+button.btn-contratar{
+    line-height: 100%;
+    margin-left: 3%;
+    margin-right: 3%;
+    text-align: center;
+    font-size: 1em;
+    padding: 3px;
+    position: relative;
+    width: 100%;
+    height: 5.5vh;
+    border-radius: 5px;
+    border: none;
+    margin-top: 4vh;
+    background-color: #459A96;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
+}
+
+.btn-contratar:hover{
+    background-color: #fff;
+    color: black;
+}
+
+.btn-contratar:hover:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 2px solid #459A96;
+    border-right: 2px solid #459A96;
+}
+
+.btn-contratar:hover:after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 2px solid #459A96;
+    border-left: 2px solid #459A96;
+}
+
+@keyframes border-top-right {
+    0% {
+        width: 0px;
+        height: 0px;
+    }
+
+    25% {
+        width: 100%;
+        height: 0px;
+    }
+
+    50% {
+        width: 100%;
+        height: 100%;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@keyframes border-bottom-left {
+    0% {
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+    }
+
+    50% {
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+    }
+
+    50.1% {
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+    }
+
+    75% {
+        width: 100%;
+        height: 0px;
+        opacity: 1;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+}
+
+/* link "butão" update vaga */
+
+.btn-update{
+    line-height: 5.5vh;
+    margin-top: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align: center;
+    font-size: 1em;
+    width: 100%;
+    height: 5.5vh;
+    border-radius: 5px;
+    border: none;
+    margin-top: 4vh;
+    background-color: #459A96;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition-duration: 0.5s;
+}
+
+.btn-update:hover{
+    background-color: #fff;
+    color: black;
+}
+
+.btn-update:hover:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 2px solid #459A96;
+    border-right: 2px solid #459A96;
+}
+
+.btn-update:hover:after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 2px solid #459A96;
+    border-left: 2px solid #459A96;
+}
+
+@keyframes border-top-right {
+    0% {
+        width: 0px;
+        height: 0px;
+    }
+
+    25% {
+        width: 100%;
+        height: 0px;
+    }
+
+    50% {
+        width: 100%;
+        height: 100%;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@keyframes border-bottom-left {
+    0% {
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+    }
+
+    50% {
+        width: 0px;
+        height: 0px;
+        opacity: 0;
+    }
+
+    50.1% {
+        width: 0px;
+        height: 0px;
+        opacity: 1;
+    }
+
+    75% {
+        width: 100%;
+        height: 0px;
+        opacity: 1;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+}
